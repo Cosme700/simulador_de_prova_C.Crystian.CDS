@@ -1,0 +1,152 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #35424a;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.question {
+    background: #ffffff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.answer {
+    margin: 10px 0;
+}
+
+button {
+    background: #35424a;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #35424a;
+    color: #ffffff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+#home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    min-height: 60vh;
+    gap: 24px;
+}
+
+#home-container button {
+    width: 220px;
+    margin: 5px 0;
+    font-size: 1.2em;
+    padding: 16px 0;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #35424a 60%, #45a049 100%);
+    box-shadow: 0 4px 16px rgba(53,66,74,0.12);
+    transition: background 0.3s, transform 0.2s;
+    border: none;
+}
+
+#home-container button:hover {
+    background: linear-gradient(90deg, #45a049 60%, #35424a 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+
+section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(53,66,74,0.08);
+    padding: 32px 24px;
+    margin: 32px auto;
+    max-width: 500px;
+}
+
+.import-instructions {
+    font-size: 0.9em;
+    color: #666;
+    text-align: left;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin: 20px 0;
+    width: 90%;
+    max-width: 600px;
+}
+
+.import-instructions pre {
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    margin: 10px 0;
+    font-family: monospace;
+}
+
+#submit-btn {
+    display: none;
+    margin: 32px auto 48px auto; /* aumenta o espaço inferior para afastar do rodapé */
+    display: block;
+    left: 0;
+    right: 0;
+    position: relative;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    section {
+        padding: 18px 6px;
+        max-width: 98vw;
+    }
+    #home-container button {
+        width: 98vw;
+        font-size: 1em;
+    }
+}
+
+/* Transições suaves para troca de tema */
+body, section, header, footer, button, .question, .import-instructions {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Corrige cor das caixas de questões no modo escuro */
+body.dark-mode .question {
+    background-color: #23272f !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .question label {
+    color: #e0e0e0 !important;
+}

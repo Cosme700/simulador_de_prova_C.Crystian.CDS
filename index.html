@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Prova</title>
+    <link rel="icon" type="image/png" href="Image.png">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Visual beta 0.5 */
+        body {
+            background: linear-gradient(180deg, #1e293b 0%, #38bdf8 100%);
+        }
+        header {
+            background: #1e293b;
+        }
+        footer {
+            background: #1e293b !important;
+        }
+        /* Opcional: destaque para botões principais */
+        #home-container button, button {
+            background: linear-gradient(90deg, #1e293b 60%, #38bdf8 100%) !important;
+            color: #fff !important;
+        }
+        #home-container button:hover, button:hover {
+            background: linear-gradient(90deg, #38bdf8 60%, #1e293b 100%) !important;
+            color: #222 !important;
+        }
+        body.dark-mode {
+            background: linear-gradient(180deg, #181a20 0%, #23272f 100%) !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode header,
+        body.dark-mode footer {
+            background: #181a20 !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode section {
+            background: #23272f !important;
+            color: #e0e0e0 !important;
+        }
+        body.dark-mode .import-instructions {
+            background: #23272f !important;
+            color: #b0b0b0 !important;
+            border-color: #333 !important;
+        }
+        body.dark-mode .import-instructions pre {
+            background: #181a20 !important;
+            color: #e0e0e0 !important;
+            border-color: #333 !important;
+        }
+        body.dark-mode button,
+        body.dark-mode #home-container button {
+            background: linear-gradient(90deg, #23272f 60%, #181a20 100%) !important;
+            color: #fff !important;
+        }
+        body.dark-mode button:hover,
+        body.dark-mode #home-container button:hover {
+            background: linear-gradient(90deg, #181a20 60%, #23272f 100%) !important;
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo centralizada acima do título, fundo transparente -->
+        <img src="Image.png" alt="Logo Simulador de Prova"
+            style="display:block; margin: 24px auto 8px auto; max-width:180px; width:60vw; border-radius: 16px; box-shadow: 0 4px 16px rgba(53,66,74,0.10); background: transparent;">
+        <h1 id="main-title">Simulador de Prova</h1>
+    </header>
+    <main>
+        <!-- Página inicial -->
+        <section id="home-container">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <button id="start-btn">Criar Prova</button>
+                <button id="import-btn">Importar Prova (.txt)</button>
+                <button id="view-btn">Visualizar Provas Existentes</button>
+                <button id="start-test-btn">Iniciar Prova Teste</button>
+                <!-- Botões de idiomas com bandeiras centralizados e menores -->
+                <div id="lang-buttons" style="display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; justify-content: center;">
+                    <button id="lang-ptbr" title="Português (Brasil)" style="padding:6px 10px; border-radius:20px; background:linear-gradient(135deg,#3eae3a 60%,#f7e017 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.08); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px;">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/br.svg" alt="PT-BR" style="width:20px;height:14px;margin-right:6px;border-radius:3px;box-shadow:0 1px 2px #0001;">
+                        PT-BR
+                    </button>
+                    <button id="lang-en" title="English (US)" style="padding:6px 10px; border-radius:20px; background:linear-gradient(135deg,#3c3b6e 60%,#b22234 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.08); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px;">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/us.svg" alt="EN" style="width:20px;height:14px;margin-right:6px;border-radius:3px;box-shadow:0 1px 2px #0001;">
+                        EN
+                    </button>
+                    <button id="lang-es" title="Español" style="padding:6px 10px; border-radius:20px; background:linear-gradient(135deg,#c60b1e 60%,#ffc400 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.08); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px;">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/es.svg" alt="ES" style="width:20px;height:14px;margin-right:6px;border-radius:3px;box-shadow:0 1px 2px #0001;">
+                        ES
+                    </button>
+                    <button id="lang-fr" title="Français" style="padding:6px 10px; border-radius:20px; background:linear-gradient(135deg,#0055a4 60%,#ef4135 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.08); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px;">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/fr.svg" alt="FR" style="width:20px;height:14px;margin-right:6px;border-radius:3px;box-shadow:0 1px 2px #0001;">
+                        FR
+                    </button>
+                    <button id="lang-it" title="Italiano" style="padding:6px 10px; border-radius:20px; background:linear-gradient(135deg,#008c45 60%,#f4f5f0 80%,#cd212a 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.08); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px;">
+                        <img src="https://cdn.jsdelivr.net/gh/hjnilsson/country-flags/svg/it.svg" alt="IT" style="width:20px;height:14px;margin-right:6px;border-radius:3px;box-shadow:0 1px 2px #0001;">
+                        IT
+                    </button>
+                    <button id="dark-mode-btn" title="Modo Escuro" style="padding:6px 14px; border-radius:20px; background:linear-gradient(135deg,#222 60%,#555 100%); border:none; box-shadow:0 1px 4px rgba(0,0,0,0.15); font-size:0.95em; display:flex; align-items:center; cursor:pointer; min-width:70px; color:#fff;">
+                        <span style="font-size:1.3em; margin-right:6px;">🌙</span> Modo Escuro
+                    </button>
+                </div>
+            </div>
+            <div class="import-instructions">
+                <h3>Como importar uma prova:</h3>
+                <p>Crie um arquivo de texto (.txt) seguindo o formato:</p>
+                <pre id="import-example" style="white-space:pre-wrap; word-break:break-word;">
+Nome da Prova
+60 <span id="tempo-label">(tempo de prova)</span>
+Questão Qual é a capital do Brasil?
+A) São Paulo
+B) Rio de Janeiro
+C) Brasília
+D) Salvador
+Resposta: C
+Justificativa: Brasília é a capital federal desde 1960
+
+Questão Quem descobriu o Brasil?
+A) Dom Pedro I
+B) Pedro Álvares Cabral
+C) Tiradentes
+D) Princesa Isabel
+Resposta: B
+Justificativa: Pedro Álvares Cabral chegou ao Brasil em 1500
+</pre>
+                <p id="import-after-instruction" style="margin-top:10px;">
+                    <strong>Após importar sua prova:</strong><br>
+                    Clique no botão <b>"Visualizar Provas Existentes"</b> na tela inicial para ver, iniciar ou excluir as provas importadas.
+                </p>
+            </div>
+            <input type="file" id="import-file" accept=".txt" style="display:none;">
+        </section>
+
+        <!-- Formulário de configuração inicial -->
+        <section id="config-container" style="display:none;">
+            <h2>Configuração da Prova</h2>
+            <form id="config-form">
+                <label for="num-questions">Quantidade de questões:</label>
+                <input type="number" id="num-questions" name="num-questions" min="1" max="100" required>
+                <br>
+                <label for="duration">Tempo de duração (minutos, até 300):</label>
+                <input type="number" id="duration" name="duration" min="1" max="300" required>
+                <br>
+                <button type="submit">Avançar</button>
+            </form>
+        </section>
+
+        <!-- Container para criação das questões (inicialmente oculto) -->
+        <section id="creation-container" style="display:none;">
+            <h2>Criação das Questões</h2>
+            <p>Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.</p>
+            <form id="creation-form">
+                <!-- Campos dinâmicos para cada questão serão inseridos via JS -->
+                <div id="questions-fields"></div>
+                <div style="display: flex; gap: 12px; margin-top: 16px;">
+                    <button type="button" id="back-home-btn">Voltar ao Menu Inicial</button>
+                    <button type="submit" id="save-quiz-btn">Salvar Prova</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Container do quiz (inicialmente oculto) -->
+        <section id="quiz-container" style="display:none;">
+            <!-- Perguntas do quiz serão inseridas aqui -->
+        </section>
+        <button id="submit-btn" style="display:none;">Enviar Respostas</button>
+
+        <!-- Relatório final (inicialmente oculto) -->
+        <section id="report-container" style="display:none;">
+            <h2>Relatório da Prova</h2>
+            <div id="report-content"></div>
+        </section>
+
+        <!-- Nova seção para exibir provas existentes -->
+        <section id="list-provas-container" style="display:none;">
+            <h2>Provas Existentes</h2>
+            <div id="provas-list"></div>
+            <button type="button" id="back-home-list-btn" style="margin-top:16px;">Voltar ao Menu Inicial</button>
+        </section>
+    </main>
+    <footer id="main-footer" style="
+        background: #1e293b;
+        color: #ffffff;
+        font-size: 0.85em;
+        text-align: center;
+        padding: 12px 10px;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+    ">
+        <p style="margin: 4px 0; font-weight:bold;">
+            Simulador de Prova - beta 1.0
+        </p>
+        <p style="margin: 4px 0;" id="footer-copyright">
+            &copy; 2025 Simulador de Provas. Todos os direitos reservados.
+        </p>
+        <p style="margin: 4px 0;" id="footer-educacional">
+            Esta plataforma é disponibilizada gratuitamente para fins educacionais e de estudo individual.
+        </p>
+        <p style="margin: 4px 0;" id="footer-law">
+            No entanto, o conteúdo, o código-fonte, o layout e as funcionalidades desta página estão protegidos pela
+            <strong>Lei nº 9.610/98 (Lei de Direitos Autorais do Brasil)</strong>.
+        </p>
+        <p style="margin: 4px 0;" id="footer-proibido">
+            É proibida a cópia, reprodução, modificação ou redistribuição deste sistema sem autorização expressa do autor.
+        </p>
+        <p style="margin: 4px 0;" id="footer-autor">
+            Autor: <strong>Cosme Crystian C de Souza</strong> –
+            <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">
+                cosmecrystian@gmail.com
+            </a>
+        </p>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+    // Traduções básicas para os principais textos da interface
+    const translations = {
+        'ptbr': {
+            'Criar Prova': 'Criar Prova',
+            'Importar Prova (.txt)': 'Importar Prova (.txt)',
+            'Visualizar Provas Existentes': 'Visualizar Provas Existentes',
+            'Iniciar Prova Teste': 'Iniciar Prova Teste',
+            'Como importar uma prova:': 'Como importar uma prova:',
+            'Crie um arquivo de texto (.txt) seguindo o formato:': 'Crie um arquivo de texto (.txt) seguindo o formato:',
+            'Configuração da Prova': 'Configuração da Prova',
+            'Quantidade de questões:': 'Quantidade de questões:',
+            'Tempo de duração (minutos, até 300):': 'Tempo de duração (minutos, até 300):',
+            'Avançar': 'Avançar',
+            'Criação das Questões': 'Criação das Questões',
+            'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.': 'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.',
+            'Voltar ao Menu Inicial': 'Voltar ao Menu Inicial',
+            'Salvar Prova': 'Salvar Prova',
+            'Enviar Respostas': 'Enviar Respostas',
+            'Relatório da Prova': 'Relatório da Prova',
+            'Provas Existentes': 'Provas Existentes',
+            'Voltar ao Início': 'Voltar ao Início',
+            'Simulador de Prova': 'Simulador de Prova'
+        },
+        'en': {
+            'Criar Prova': 'Create Test',
+            'Importar Prova (.txt)': 'Import Test (.txt)',
+            'Visualizar Provas Existentes': 'View Saved Tests',
+            'Iniciar Prova Teste': 'Start Test Demo',
+            'Como importar uma prova:': 'How to import a test:',
+            'Crie um arquivo de texto (.txt) seguindo o formato:': 'Create a .txt file in the following format:',
+            'Configuração da Prova': 'Test Configuration',
+            'Quantidade de questões:': 'Number of questions:',
+            'Tempo de duração (minutos, até 300):': 'Duration (minutes, up to 300):',
+            'Avançar': 'Next',
+            'Criação das Questões': 'Question Creation',
+            'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.': 'For each question, fill in the statement, the four alternatives (A, B, C, D), select the correct answer and enter the justification.',
+            'Voltar ao Menu Inicial': 'Back to Home',
+            'Salvar Prova': 'Save Test',
+            'Enviar Respostas': 'Submit Answers',
+            'Relatório da Prova': 'Test Report',
+            'Provas Existentes': 'Saved Tests',
+            'Voltar ao Início': 'Back to Home',
+            'Simulador de Prova': 'Exam Simulator'
+        },
+        'es': {
+            'Criar Prova': 'Crear Prueba',
+            'Importar Prova (.txt)': 'Importar Prueba (.txt)',
+            'Visualizar Provas Existentes': 'Ver Pruebas Guardadas',
+            'Iniciar Prova Teste': 'Iniciar Prueba Demo',
+            'Como importar uma prova:': 'Cómo importar una prueba:',
+            'Crie um arquivo de texto (.txt) seguindo o formato:': 'Cree un archivo de texto (.txt) con el siguiente formato:',
+            'Configuração da Prova': 'Configuración de la Prueba',
+            'Quantidade de questões:': 'Cantidad de preguntas:',
+            'Tempo de duração (minutos, até 300):': 'Duración (minutos, hasta 300):',
+            'Avançar': 'Avanzar',
+            'Criação das Questões': 'Creación de Preguntas',
+            'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.': 'Para cada pregunta, complete el enunciado, las cuatro alternativas (A, B, C, D), seleccione la respuesta correcta e ingrese la justificación.',
+            'Voltar ao Menu Inicial': 'Volver al Menú Principal',
+            'Salvar Prova': 'Guardar Prueba',
+            'Enviar Respostas': 'Enviar Respuestas',
+            'Relatório da Prova': 'Informe de la Prueba',
+            'Provas Existentes': 'Pruebas Guardadas',
+            'Voltar ao Início': 'Volver al Inicio',
+            'Simulador de Prova': 'Simulador de Pruebas'
+        },
+        'fr': {
+            'Criar Prova': 'Créer un Test',
+            'Importar Prova (.txt)': 'Importer un Test (.txt)',
+            'Visualizar Provas Existentes': 'Voir les Tests Enregistrés',
+            'Iniciar Prova Teste': 'Démarrer le Test Démo',
+            'Como importar uma prova:': 'Comment importer un test :',
+            'Crie um arquivo de texto (.txt) seguindo o formato:': 'Créez un fichier texte (.txt) au format suivant :',
+            'Configuração da Prova': 'Configuration du Test',
+            'Quantidade de questões:': 'Nombre de questions :',
+            'Tempo de duração (minutos, até 300):': 'Durée (minutes, jusqu\'à 300) :',
+            'Avançar': 'Suivant',
+            'Criação das Questões': 'Création des Questions',
+            'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.': 'Pour chaque question, remplissez l\'énoncé, les quatre alternatives (A, B, C, D), sélectionnez la bonne réponse et saisissez la justification.',
+            'Voltar ao Menu Inicial': 'Retour au Menu Principal',
+            'Salvar Prova': 'Enregistrer le Test',
+            'Enviar Respostas': 'Envoyer les Réponses',
+            'Relatório da Prova': 'Rapport du Test',
+            'Provas Existentes': 'Tests Enregistrés',
+            'Voltar ao Início': 'Retour à l\'Accueil',
+            'Simulador de Prova': 'Simulateur d\'Examens'
+        },
+        'it': {
+            'Criar Prova': 'Crea Test',
+            'Importar Prova (.txt)': 'Importa Test (.txt)',
+            'Visualizar Provas Existentes': 'Visualizza Test Salvati',
+            'Iniciar Prova Teste': 'Avvia Test Demo',
+            'Como importar uma prova:': 'Come importare un test:',
+            'Crie um arquivo de texto (.txt) seguindo o formato:': 'Crea un file di testo (.txt) nel seguente formato:',
+            'Configuração da Prova': 'Configurazione del Test',
+            'Quantidade de questões:': 'Numero di domande:',
+            'Tempo de duração (minutos, até 300):': 'Durata (minuti, fino a 300):',
+            'Avançar': 'Avanti',
+            'Criação das Questões': 'Creazione delle Domande',
+            'Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.': 'Per ogni domanda, inserisci il testo, le quattro alternative (A, B, C, D), seleziona la risposta corretta e inserisci la giustificazione.',
+            'Voltar ao Menu Inicial': 'Torna al Menu Iniziale',
+            'Salvar Prova': 'Salva Test',
+            'Enviar Respostas': 'Invia Risposte',
+            'Relatório da Prova': 'Rapporto del Test',
+            'Provas Existentes': 'Test Salvati',
+            'Voltar ao Início': 'Torna all\'Inizio',
+            'Simulador de Prova': 'Simulatore di Prove'
+        }
+    };
+
+    // Traduções do rodapé
+    const footerTranslations = {
+        ptbr: {
+            copyright: "&copy; 2025 Simulador de Provas. Todos os direitos reservados.",
+            educacional: "Esta plataforma é disponibilizada gratuitamente para fins educacionais e de estudo individual.",
+            law: "No entanto, o conteúdo, o código-fonte, o layout e as funcionalidades desta página estão protegidos pela <strong>Lei nº 9.610/98 (Lei de Direitos Autorais do Brasil)</strong>.",
+            proibido: "É proibida a cópia, reprodução, modificação ou redistribuição deste sistema sem autorização expressa do autor.",
+            autor: 'Autor: <strong>Cosme Crystian C de Souza</strong> – <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">cosmecrystian@gmail.com</a>'
+        },
+        en: {
+            copyright: "&copy; 2025 Exam Simulator. All rights reserved.",
+            educacional: "This platform is provided free of charge for educational and individual study purposes.",
+            law: "However, the content, source code, layout, and features of this page are protected by <strong>Brazilian Law No. 9.610/98 (Brazil Copyright Law)</strong>.",
+            proibido: "Copying, reproduction, modification, or redistribution of this system without the author's express permission is prohibited.",
+            autor: 'Author: <strong>Cosme Crystian C de Souza</strong> – <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">cosmecrystian@gmail.com</a>'
+        },
+        es: {
+            copyright: "&copy; 2025 Simulador de Pruebas. Todos los derechos reservados.",
+            educacional: "Esta plataforma se ofrece de forma gratuita para fines educativos e de estudo individual.",
+            law: "Sin embargo, el contenido, el código fuente, el diseño y las funcionalidades de esta página están protegidos por la <strong>Ley brasileña nº 9.610/98 (Ley de Derechos de Autor de Brasil)</strong>.",
+            proibido: "Está prohibida la copia, reproducción, modificación o redistribución de este sistema sin la autorización expresa del autor.",
+            autor: 'Autor: <strong>Cosme Crystian C de Souza</strong> – <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">cosmecrystian@gmail.com</a>'
+        },
+        fr: {
+            copyright: "&copy; 2025 Simulateur d\'Examens. Tous droits réservés.",
+            educacional: "Cette plateforme est mise à disposition gratuitement à des fins éducatives et d\'étude individuelle.",
+            law: "Cependant, le contenu, le code source, la mise en page et les fonctionnalités de cette page sont protégés par la <strong>Loi brésilienne n° 9.610/98 (Loi sur le droit d\'auteur du Brésil)</strong>.",
+            proibido: "La copie, la reproduction, la modification ou la redistribution de ce système sans l\'autorisation expresse de l\'auteur est interdite.",
+            autor: 'Auteur : <strong>Cosme Crystian C de Souza</strong> – <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">cosmecrystian@gmail.com</a>'
+        },
+        it: {
+            copyright: "&copy; 2025 Simulatore di Prove. Tutti i diritti riservati.",
+            educacional: "Questa piattaforma è fornita gratuitamente per scopi educativi e di studio individuale.",
+            law: "Tuttavia, il contenuto, il codice sorgente, il layout e le funzionalità di questa pagina sono protetti dalla <strong>Legge brasiliana n. 9.610/98 (Legge sul diritto d\'autore del Brasile)</strong>.",
+            proibido: "È vietata la copia, la riproduzione, la modifica o la redistribuzione di questo sistema senza l\'autorizzazione espressa dell\'autore.",
+            autor: 'Autore: <strong>Cosme Crystian C de Souza</strong> – <a href="mailto:cosmecrystian@gmail.com" style="color: #aadfff; text-decoration: underline;">cosmecrystian@gmail.com</a>'
+        }
+    };
+
+    // Traduções do label do tempo de prova na janela de importação
+    const tempoLabelTranslations = {
+        ptbr: "(tempo de prova)",
+        en: "(test time)",
+        es: "(tiempo de prueba)",
+        fr: "(durée de l'épreuve)",
+        it: "(tempo della prova)"
+    };
+
+    // Traduções do exemplo de importação (Nome da Prova, Questão, etc)
+    const importExampleTranslations = {
+        ptbr: `Nome da Prova
+60 <span id="tempo-label">(tempo de prova)</span>
+Questão Qual é a capital do Brasil?
+A) São Paulo
+B) Rio de Janeiro
+C) Brasília
+D) Salvador
+Resposta: C
+Justificativa: Brasília é a capital federal desde 1960
+
+Questão Quem descobriu o Brasil?
+A) Dom Pedro I
+B) Pedro Álvares Cabral
+C) Tiradentes
+D) Princesa Isabel
+Resposta: B
+Justificativa: Pedro Álvares Cabral chegou ao Brasil em 1500
+`,
+        en: `Test Name
+60 <span id="tempo-label">(test time)</span>
+Question What is the capital of the United States?
+A) New York
+B) Los Angeles
+C) Washington, D.C.
+D) Chicago
+Answer: C
+Justification: Washington, D.C. is the capital of the United States.
+
+Question Who wrote "Romeo and Juliet"?
+A) Charles Dickens
+B) William Shakespeare
+C) Mark Twain
+D) Jane Austen
+Answer: B
+Justification: "Romeo and Juliet" was written by William Shakespeare.`,
+        es: `Nombre de la Prueba
+60 <span id="tempo-label">(tiempo de prueba)</span>
+Pregunta ¿Cuál es la capital de España?
+A) Barcelona
+B) Madrid
+C) Sevilla
+D) Valencia
+Respuesta: B
+Justificación: Madrid es la capital de España.
+
+Pregunta ¿Quién pintó la Mona Lisa?
+A) Pablo Picasso
+B) Salvador Dalí
+C) Leonardo da Vinci
+D) Diego Velázquez
+Respuesta: C
+Justificación: La Mona Lisa fue pintada por Leonardo da Vinci.`,
+        fr: `Nom du Test
+60 <span id="tempo-label">(durée de l'épreuve)</span>
+Question Quelle est la capitale de la France ?
+A) Lyon
+B) Marseille
+C) Paris
+D) Bordeaux
+Réponse: C
+Justification: Paris est la capitale de la France.
+
+Question Qui a inventé le téléphone ?
+A) Thomas Edison
+B) Alexander Graham Bell
+C) Nikola Tesla
+D) Louis Pasteur
+Réponse: B
+Justification: Le téléphone a été inventé par Alexander Graham Bell.`,
+        it: `Nome della Prova
+60 <span id="tempo-label">(tempo della prova)</span>
+Domanda Qual è la capitale d'Italia?
+A) Milano
+B) Roma
+C) Firenze
+D) Venezia
+Risposta: B
+Giustificazione: Roma è la capitale d'Italia.
+
+Domanda Chi ha dipinto il soffitto della Cappella Sistina?
+A) Leonardo da Vinci
+B) Michelangelo
+C) Raffaello
+D) Donatello
+Risposta: B
+Giustificazione: <span style="word-break:break-word;display:inline-block;max-width:100%;">Il soffitto della Cappella Sistina è stato dipinto da Michelangelo.</span>`
+    };
+
+    // Traduções da instrução "após importar sua prova"
+    const importAfterInstructionTranslations = {
+        ptbr: `<strong>Após importar sua prova:</strong><br>
+Clique no botão <b>"Visualizar Provas Existentes"</b> na tela inicial para ver, iniciar ou excluir as provas importadas.`,
+        en: `<strong>After importing your test:</strong><br>
+Click the <b>"View Saved Tests"</b> button on the home screen to view, start, or delete imported tests.`,
+        es: `<strong>Después de importar su prueba:</strong><br>
+Haga clic en el botón <b>"Ver Pruebas Guardadas"</b> en la pantalla de inicio para ver, iniciar o eliminar las pruebas importadas.`,
+        fr: `<strong>Après avoir importé votre test :</strong><br>
+Cliquez sur le bouton <b>"Voir les Tests Enregistrés"</b> sur l'écran d'accueil pour voir, démarrer ou supprimer les tests importés.`,
+        it: `<strong>Dopo aver importato il test:</strong><br>
+Fai clic sul pulsante <b>"Visualizza Test Salvati"</b> nella schermata iniziale per vedere, avviare o eliminare i test importati.`
+    };
+
+    // Traduções do botão modo escuro/claro
+    const darkModeBtnTranslations = {
+        ptbr: {
+            dark: '<span style="font-size:1.3em; margin-right:6px;">🌙</span> Modo Escuro',
+            light: '<span style="font-size:1.3em; margin-right:6px;">☀️</span> Modo Claro'
+        },
+        en: {
+            dark: '<span style="font-size:1.3em; margin-right:6px;">🌙</span> Dark Mode',
+            light: '<span style="font-size:1.3em; margin-right:6px;">☀️</span> Light Mode'
+        },
+        es: {
+            dark: '<span style="font-size:1.3em; margin-right:6px;">🌙</span> Modo Oscuro',
+            light: '<span style="font-size:1.3em; margin-right:6px;">☀️</span> Modo Claro'
+        },
+        fr: {
+            dark: '<span style="font-size:1.3em; margin-right:6px;">🌙</span> Mode Sombre',
+            light: '<span style="font-size:1.3em; margin-right:6px;">☀️</span> Mode Clair'
+        },
+        it: {
+            dark: '<span style="font-size:1.3em; margin-right:6px;">🌙</span> Modalità Scura',
+            light: '<span style="font-size:1.3em; margin-right:6px;">☀️</span> Modalità Chiara'
+        }
+    };
+
+    let currentLang = 'ptbr';
+
+    function translatePage(lang) {
+        currentLang = lang;
+        // Botões principais
+        document.getElementById('start-btn').textContent = translations[lang]['Criar Prova'];
+        document.getElementById('import-btn').textContent = translations[lang]['Importar Prova (.txt)'];
+        document.getElementById('view-btn').textContent = translations[lang]['Visualizar Provas Existentes'];
+        document.getElementById('start-test-btn').textContent = translations[lang]['Iniciar Prova Teste'];
+
+        // Instruções de importação
+        document.querySelector('.import-instructions h3').textContent = translations[lang]['Como importar uma prova:'];
+        document.querySelector('.import-instructions p').textContent = translations[lang]['Crie um arquivo de texto (.txt) seguindo o formato:'];
+
+        // Configuração da prova
+        document.querySelector('#config-container h2').textContent = translations[lang]['Configuração da Prova'];
+        document.querySelector('label[for="num-questions"]').textContent = translations[lang]['Quantidade de questões:'];
+        document.querySelector('label[for="duration"]').textContent = translations[lang]['Tempo de duração (minutos, até 300):'];
+        document.querySelector('#config-form button[type="submit"]').textContent = translations[lang]['Avançar'];
+
+        // Criação das questões
+        document.querySelector('#creation-container h2').textContent = translations[lang]['Criação das Questões'];
+        document.querySelector('#creation-container p').textContent = translations[lang]['Para cada questão, preencha o enunciado, as quatro alternativas (A, B, C, D), selecione a alternativa correta e insira a justificativa da resposta correta.'];
+        document.getElementById('back-home-btn').textContent = translations[lang]['Voltar ao Menu Inicial'];
+        document.getElementById('save-quiz-btn').textContent = translations[lang]['Salvar Prova'];
+
+        // Botão enviar respostas
+        document.getElementById('submit-btn').textContent = translations[lang]['Enviar Respostas'];
+
+        // Relatório da prova
+        document.querySelector('#report-container h2').textContent = translations[lang]['Relatório da Prova'];
+
+        // Provas existentes
+        document.querySelector('#list-provas-container h2').textContent = translations[lang]['Provas Existentes'];
+        document.getElementById('back-home-list-btn').textContent = translations[lang]['Voltar ao Menu Inicial'];
+
+        // Botão voltar ao início no relatório (se existir)
+        const btnBackHome = document.getElementById('back-to-home-btn');
+        if (btnBackHome) btnBackHome.textContent = translations[lang]['Voltar ao Início'];
+
+        // Rodapé
+        document.getElementById('footer-copyright').innerHTML = footerTranslations[lang].copyright;
+        document.getElementById('footer-educacional').innerHTML = footerTranslations[lang].educacional;
+        document.getElementById('footer-law').innerHTML = footerTranslations[lang].law;
+        document.getElementById('footer-proibido').innerHTML = footerTranslations[lang].proibido;
+        document.getElementById('footer-autor').innerHTML = footerTranslations[lang].autor;
+
+        // Label do tempo de prova na janela de importação
+        const tempoLabel = document.getElementById('tempo-label');
+        if (tempoLabel) tempoLabel.textContent = tempoLabelTranslations[lang];
+
+        // Exemplo de importação traduzido
+        const importExample = document.getElementById('import-example');
+        if (importExample) importExample.innerHTML = importExampleTranslations[lang];
+
+        // Instrução após importar prova
+        const importAfterInstruction = document.getElementById('import-after-instruction');
+        if (importAfterInstruction) importAfterInstruction.innerHTML = importAfterInstructionTranslations[lang];
+
+        // Botão modo escuro/claro
+        const darkModeBtn = document.getElementById('dark-mode-btn');
+        if (darkModeBtn) {
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeBtn.innerHTML = darkModeBtnTranslations[lang].light;
+            } else {
+                darkModeBtn.innerHTML = darkModeBtnTranslations[lang].dark;
+            }
+        }
+
+        // Título principal abaixo da logo
+        const mainTitle = document.getElementById('main-title');
+        if (mainTitle) mainTitle.textContent = translations[lang]['Simulador de Prova'];
+    }
+
+    // Torna translatePage global para uso no main.js
+    window.translatePage = translatePage;
+
+    // Aplica idioma salvo ao carregar a página (garantia extra)
+    (function() {
+        const savedLang = localStorage.getItem("selectedLang") || "ptbr";
+        window.currentLang = savedLang;
+        translatePage(savedLang);
+    })();
+
+    // Não precisa adicionar listeners de idioma aqui, pois estão no main.js
+
+    // Dark mode toggle
+    const darkModeBtn = document.getElementById('dark-mode-btn');
+    if (darkModeBtn) {
+        darkModeBtn.onclick = function() {
+            document.body.classList.toggle('dark-mode');
+            const lang = currentLang || 'ptbr';
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeBtn.innerHTML = darkModeBtnTranslations[lang].light;
+            } else {
+                darkModeBtn.innerHTML = darkModeBtnTranslations[lang].dark;
+            }
+        };
+    }
+    </script>
+</body>
+</html>
